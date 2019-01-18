@@ -5,7 +5,7 @@ install: wget https://raw.githubusercontent.com/ocaml/ocaml-ci-scripts/master/.t
 script: bash -ex .travis-docker.sh
 env:
   global:
-    - PACKAGE=xenstored
-    - PINS="xen:. xenstored:."
+    - PACKAGE=xenctrl
+    - PINS="xenctrl:."
   matrix:
-    - DISTRO="debian-9-ocaml-4.06"
+    - DISTRO="debian-9-ocaml-4.07"
