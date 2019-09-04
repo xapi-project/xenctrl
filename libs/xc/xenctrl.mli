@@ -49,12 +49,22 @@ type arch_domainconfig =
   | ARM of xen_arm_arch_domainconfig
   | X86 of xen_x86_arch_domainconfig
 
-type domain_create_flag = CDF_HVM | CDF_HAP
+type domain_create_flag =
+  | CDF_HVM
+  | CDF_HAP
+  | CDF_S3_INTEGRITY
+  | CDF_OOS_OFF
+  | CDF_XS_DOMAIN
+  | CDF_IOMMU
+
+type domain_create_iommu_opts =
+  | IOMMU_NO_SHAREPT
 
 type domctl_create_config = {
   ssidref: int32;
   handle: string;
   flags: domain_create_flag list;
+  iommu_opts: domain_create_iommu_opts list;
   max_vcpus: int;
   max_evtchn_port: int;
   max_grant_frames: int;

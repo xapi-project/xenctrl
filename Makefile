@@ -7,10 +7,13 @@
 .PHONY: all clean docker
 
 all:
-	dune build --profile=release
+	dune build @install --profile=release
 
 build:
 	dune build --profile=dev
+
+install: all
+	dune install --profile=release
 
 clean:
 	dune clean
