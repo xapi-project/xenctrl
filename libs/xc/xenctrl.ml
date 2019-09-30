@@ -46,6 +46,7 @@ type x86_arch_emulation_flags =
 	| X86_EMU_IOMMU
 	| X86_EMU_PIT
 	| X86_EMU_USE_PIRQ
+	| X86_EMU_VPCI
 
 type xen_x86_arch_domainconfig =
 {
@@ -122,7 +123,10 @@ type sched_control =
 
 type physinfo_cap_flag =
 	| CAP_HVM
+	| CAP_PV
 	| CAP_DirectIO
+	| CAP_HAP
+	| CAP_Shadow
 
 type physinfo =
 {
