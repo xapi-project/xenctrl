@@ -46,6 +46,7 @@ type x86_arch_emulation_flags =
 	| X86_EMU_IOMMU
 	| X86_EMU_PIT
 	| X86_EMU_USE_PIRQ
+	| X86_EMU_VPCI
 
 type xen_x86_arch_domainconfig =
 {
@@ -56,7 +57,12 @@ type arch_domainconfig =
 	| ARM of xen_arm_arch_domainconfig
 	| X86 of xen_x86_arch_domainconfig
 
-type domain_create_flag = CDF_HVM | CDF_HAP
+type domain_create_flag =
+	| CDF_HVM
+	| CDF_HAP
+	| CDF_S3_INTEGRITY
+	| CDF_OOS_OFF
+	| CDF_XS_DOMAIN
 
 type domctl_create_config =
 {
@@ -111,7 +117,10 @@ type sched_control =
 
 type physinfo_cap_flag =
 	| CAP_HVM
+	| CAP_PV
 	| CAP_DirectIO
+	| CAP_HAP
+	| CAP_Shadow
 
 type physinfo =
 {
