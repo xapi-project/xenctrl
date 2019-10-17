@@ -56,11 +56,16 @@ type domain_create_flag =
   | CDF_S3_INTEGRITY
   | CDF_OOS_OFF
   | CDF_XS_DOMAIN
+  | CDF_IOMMU
+
+type domain_create_iommu_opts =
+  | IOMMU_NO_SHAREPT
 
 type domctl_create_config = {
   ssidref: int32;
   handle: string;
   flags: domain_create_flag list;
+  iommu_opts: domain_create_iommu_opts list;
   max_vcpus: int;
   max_evtchn_port: int;
   max_grant_frames: int;
@@ -101,11 +106,13 @@ type domaininfo = {
 }
 type sched_control = { weight : int; cap : int; }
 type physinfo_cap_flag =
-  | CAP_HVM
-  | CAP_PV
-  | CAP_DirectIO
-  | CAP_HAP
-  | CAP_Shadow
+	| CAP_HVM
+	| CAP_PV
+	| CAP_DirectIO
+	| CAP_HAP
+	| CAP_Shadow
+
+
 type physinfo = {
   threads_per_core : int;
   cores_per_socket : int;
