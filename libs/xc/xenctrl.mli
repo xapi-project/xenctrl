@@ -240,6 +240,12 @@ val pages_to_mib : int64 -> int64
 val watchdog : handle -> int -> int32 -> int
   
 
+(* New MSR external functions *)
+val xc_get_msr_arch_caps : handle -> int64
+val xc_cpu_policy_get_system: handle -> int -> int64 array
+val cpu_policy_calc_compatible : handle -> int64 array -> int64 array -> int64 array * bool * string option
+val upgrade_cpu_policy : handle -> int64 array -> bool -> int64 array
+
 val domain_set_machine_address_size: handle -> domid -> int -> unit
   
 val domain_get_machine_address_size: handle -> domid -> int
