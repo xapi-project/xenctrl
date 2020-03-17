@@ -312,9 +312,9 @@ external oldstyle_featuremask: handle -> int64 array = "mock1"
 
 (* New MSR external functions *)
 external xc_get_msr_arch_caps : handle -> int64 = "mock1"
-external xc_cpu_policy_get_system: handle -> int -> int64 array = "mock1"
-external cpu_policy_calc_compatible : handle -> int64 array -> int64 array -> int64 array * bool * string option = "mock2"
-external upgrade_cpu_policy : handle -> int64 array -> bool -> int64 array = "mock2"
+external xc_cpu_policy_get_system: handle -> int -> int64 array = "mock2"
+external cpu_policy_calc_compatible : handle -> int64 array -> int64 array -> int64 array * bool * string option = "mock3"
+external upgrade_cpu_policy : handle -> int64 array -> bool -> int64 array = "mock3"
 
 external watchdog : handle -> int -> int32 -> int
   = "mock1"
