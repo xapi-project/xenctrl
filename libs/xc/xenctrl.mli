@@ -228,7 +228,7 @@ val version_changeset : handle -> string
 val version_capabilities : handle -> string
   
 
-type featureset_index = Featureset_raw | Featureset_host | Featureset_pv | Featureset_hvm
+type featureset_index = Featureset_raw | Featureset_host | Featureset_pv | Featureset_hvm | Featureset_pv_max | Featureset_hvm_max
 val get_cpu_featureset : handle -> featureset_index -> int64 array 
 val get_featureset : handle -> featureset_index -> int64 array 
 
