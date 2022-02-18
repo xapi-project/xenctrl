@@ -1,7 +1,8 @@
-
 (library
- (name            xeneventchn)
- (public_name     xenctrl.xeneventchn)
- (libraries       unix)
- (c_names         xeneventchn_stubs)
+ (foreign_stubs
+  (language c)
+  (names xeneventchn_stubs))
+ (name xeneventchn)
+ (public_name xenctrl.xeneventchn)
+ (libraries unix)
  (c_library_flags -lxenevtchn))

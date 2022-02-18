@@ -7,7 +7,7 @@ homepage: "https://github.com/xapi-project/xenctrl"
 bug-reports: "https://github.com/xapi-project/xenctrl/issues"
 depends: [
   "ocaml"
-  "dune" {build}
+  "dune" {>= "2.0"}
   "base-unix"
 ]
 build: ["dune" "build" "-p" name "-j" jobs]

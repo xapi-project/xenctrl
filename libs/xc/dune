@@ -1,9 +1,10 @@
-
 (library
- (name            xenctrl)
- (public_name     xenctrl)
- (libraries       unix xenmmap)
- (c_names         xenctrl_stubs)
+ (foreign_stubs
+  (language c)
+  (names xenctrl_stubs))
+ (name xenctrl)
+ (public_name xenctrl)
+ (libraries unix xenmmap)
  (c_library_flags
   -lxenctrl
   -lxenguest

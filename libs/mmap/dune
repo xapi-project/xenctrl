@@ -1,7 +1,8 @@
-
 (library
- (name               xenmmap)
- (public_name        xenctrl.xenmmap)
- (libraries          unix)
- (c_names            xenmmap_stubs)
- (install_c_headers  mmap_stubs))
+ (foreign_stubs
+  (language c)
+  (names xenmmap_stubs))
+ (name xenmmap)
+ (public_name xenctrl.xenmmap)
+ (libraries unix)
+ (install_c_headers mmap_stubs))
