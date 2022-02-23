@@ -1,9 +1,9 @@
-
 (library
- (name              xentoollog)
- (public_name       xenctrl.xentoollog)
- (libraries         unix)
- (c_names           xentoollog_stubs)
+ (foreign_stubs
+  (language c)
+  (names xentoollog_stubs))
+ (name xentoollog)
+ (public_name xentoollog)
+ (libraries unix)
  (install_c_headers caml_xentoollog)
- (c_library_flags   -lxentoollog))
-
+ (c_library_flags -lxentoollog))

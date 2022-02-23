@@ -1,7 +1,8 @@
-
 (library
- (name            xenbus)
- (public_name     xenctrl.xenbus)
- (libraries       unix xenmmap)
- (c_names         xenbus_stubs xs_ring_stubs)
+ (foreign_stubs
+  (language c)
+  (names xenbus_stubs xs_ring_stubs))
+ (name xenbus)
+ (public_name xenctrl.xenbus)
+ (libraries unix xenmmap)
  (c_library_flags -lxenctrl))
