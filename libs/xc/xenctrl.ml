@@ -14,74 +14,6 @@
  * GNU Lesser General Public License for more details.
  *)
 
-(** *)
-type domid = int
-
-(* ** xenctrl.h ** *)
-
-type vcpuinfo =
-{
-	online: bool;
-	blocked: bool;
-	running: bool;
-	cputime: int64;
-	cpumap: int32;
-}
-
-type xen_arm_arch_domainconfig =
-{
-	gic_version: int;
-	nr_spis: int;
-	clock_frequency: int32;
-}
-
-type x86_arch_emulation_flags =
-	| X86_EMU_LAPIC
-	| X86_EMU_HPET
-	| X86_EMU_PM
-	| X86_EMU_RTC
-	| X86_EMU_IOAPIC
-	| X86_EMU_PIC
-	| X86_EMU_VGA
-	| X86_EMU_IOMMU
-	| X86_EMU_PIT
-	| X86_EMU_USE_PIRQ
-	| X86_EMU_VPCI
-
-type xen_x86_arch_domainconfig =
-{
-	emulation_flags: x86_arch_emulation_flags list;
-}
-
-type arch_domainconfig =
-	| ARM of xen_arm_arch_domainconfig
-	| X86 of xen_x86_arch_domainconfig
-
-type domain_create_flag =
-  | CDF_HVM
-  | CDF_HAP
-  | CDF_S3_INTEGRITY
-  | CDF_OOS_OFF
-  | CDF_XS_DOMAIN
-  | CDF_IOMMU
-
-type domain_create_iommu_opts =
-  | IOMMU_NO_SHAREPT
-
-
-type domctl_create_config =
-{
-	ssidref: int32;
-	handle: string;
-	flags: domain_create_flag list;
-	iommu_opts: domain_create_iommu_opts list;
-	max_vcpus: int;
-	max_evtchn_port: int;
-	max_grant_frames: int;
-	max_maptrack_frames: int;
-	arch: arch_domainconfig;
-}
-
 type runstateinfo = {
   state : int32;
   missed_changes: int32;
@@ -94,72 +26,135 @@ type runstateinfo = {
   time5 : int64;
 }
 
-type domaininfo =
-{
-	domid             : domid;
-	dying             : bool;
-	shutdown          : bool;
-	paused            : bool;
-	blocked           : bool;
-	running           : bool;
-	hvm_guest         : bool;
-	shutdown_code     : int;
-	total_memory_pages: nativeint;
-	max_memory_pages  : nativeint;
-	shared_info_frame : int64;
-	cpu_time          : int64;
-	nr_online_vcpus   : int;
-	max_vcpu_id       : int;
-	ssidref           : int32;
-	handle            : int array;
-	arch_config       : arch_domainconfig;
+type domid = int
+type vcpuinfo = {
+  online : bool;
+  blocked : bool;
+  running : bool;
+  cputime : int64;
+  cpumap : int32;
 }
 
-type sched_control =
-{
-	weight : int;
-	cap    : int;
+type xen_arm_arch_domainconfig = {
+  gic_version: int;
+  nr_spis: int;
+  clock_frequency: int32;
 }
 
+type x86_arch_emulation_flags =
+  | X86_EMU_LAPIC
+  | X86_EMU_HPET
+  | X86_EMU_PM
+  | X86_EMU_RTC
+  | X86_EMU_IOAPIC
+  | X86_EMU_PIC
+  | X86_EMU_VGA
+  | X86_EMU_IOMMU
+  | X86_EMU_PIT
+  | X86_EMU_USE_PIRQ
+  | X86_EMU_VPCI
+
+type x86_arch_misc_flags =
+  | X86_MSR_RELAXED
+
+type xen_x86_arch_domainconfig = {
+  emulation_flags: x86_arch_emulation_flags list;
+  misc_flags: x86_arch_misc_flags list;
+}
+
+type arch_domainconfig =
+  | ARM of xen_arm_arch_domainconfig
+  | X86 of xen_x86_arch_domainconfig
+
+type domain_create_flag =
+  | CDF_HVM
+  | CDF_HAP
+  | CDF_S3_INTEGRITY
+  | CDF_OOS_OFF
+  | CDF_XS_DOMAIN
+  | CDF_IOMMU
+  | CDF_NESTED_VIRT
+  | CDF_VPMU
+
+type domain_create_iommu_opts =
+  | IOMMU_NO_SHAREPT
+
+type domctl_create_config = {
+  ssidref: int32;
+  handle: string;
+  flags: domain_create_flag list;
+  iommu_opts: domain_create_iommu_opts list;
+  max_vcpus: int;
+  max_evtchn_port: int;
+  max_grant_frames: int;
+  max_maptrack_frames: int;
+  max_grant_version: int;
+  cpupool_id: int32;
+  arch: arch_domainconfig;
+}
+
+type domaininfo = {
+  domid : domid;
+  dying : bool;
+  shutdown : bool;
+  paused : bool;
+  blocked : bool;
+  running : bool;
+  hvm_guest : bool;
+  shutdown_code : int;
+  total_memory_pages : nativeint;
+  max_memory_pages : nativeint;
+  shared_info_frame : int64;
+  cpu_time : int64;
+  nr_online_vcpus : int;
+  max_vcpu_id : int;
+  ssidref : int32;
+  handle : int array;
+  arch_config : arch_domainconfig;
+}
+type sched_control = { weight : int; cap : int; }
 type physinfo_cap_flag =
-	| CAP_HVM
-	| CAP_PV
-	| CAP_DirectIO
-	| CAP_HAP
-	| CAP_Shadow
+  | CAP_HVM
+  | CAP_PV
+  | CAP_DirectIO
+  | CAP_HAP
+  | CAP_Shadow
+  | CAP_IOMMU_HAP_PT_SHARE
+  | CAP_Vmtrace
+  | CAP_Vpmu
+  | CAP_Gnttab_v1
+  | CAP_Gnttab_v2
 
-type physinfo =
-{
-	threads_per_core : int;
-	cores_per_socket : int;
-	nr_cpus          : int;
-	max_node_id      : int;
-	cpu_khz          : int;
-	total_pages      : nativeint;
-	free_pages       : nativeint;
-	scrub_pages      : nativeint;
-	(* XXX hw_cap *)
-	capabilities     : physinfo_cap_flag list;
-	max_nr_cpus      : int;
+type arm_physinfo_cap_flag
+
+type x86_physinfo_cap_flag
+
+type arch_physinfo_cap_flags =
+  | ARM of arm_physinfo_cap_flag list
+  | X86 of x86_physinfo_cap_flag list
+
+type physinfo = {
+  threads_per_core : int;
+  cores_per_socket : int;
+  nr_cpus          : int;
+  max_node_id      : int;
+  cpu_khz          : int;
+  total_pages      : nativeint;
+  free_pages       : nativeint;
+  scrub_pages      : nativeint;
+  capabilities     : physinfo_cap_flag list;
+  max_nr_cpus      : int; (** compile-time max possible number of nr_cpus *)
+  arch_capabilities : arch_physinfo_cap_flags;
 }
-
-type version =
-{
-	major : int;
-	minor : int;
-	extra : string;
+type version = { major : int; minor : int; extra : string; }
+type compile_info = {
+  compiler : string;
+  compile_by : string;
+  compile_domain : string;
+  compile_date : string;
 }
-
-
-type compile_info =
-{
-	compiler : string;
-	compile_by : string;
-	compile_domain : string;
-	compile_date : string;
-}
-
 type shutdown_reason = Poweroff | Reboot | Suspend | Crash | Watchdog | Soft_reset
+
 
 exception Error of string
 
