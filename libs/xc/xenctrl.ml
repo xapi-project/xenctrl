@@ -286,7 +286,7 @@ external map_foreign_range: handle -> domid -> int
                          -> nativeint -> Xenmmap.mmap_interface
        = "mock1"
 
-type hvm_param =
+type hvm_param =
   | HVM_PARAM_CALLBACK_IRQ
   | HVM_PARAM_STORE_PFN
   | HVM_PARAM_STORE_EVTCHN
