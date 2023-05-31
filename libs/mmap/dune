@@ -3,6 +3,6 @@
   (language c)
   (names xenmmap_stubs))
  (name xenmmap)
- (public_name xenctrl.xenmmap)
+ (public_name xenmmap)
  (libraries unix)
  (install_c_headers mmap_stubs))
