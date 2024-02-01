@@ -48,9 +48,13 @@ type x86_arch_emulation_flags =
 	| X86_EMU_USE_PIRQ
 	| X86_EMU_VPCI
 
+type x86_arch_misc_flags =
+	| X86_MSR_RELAXED
+
 type xen_x86_arch_domainconfig =
 {
 	emulation_flags: x86_arch_emulation_flags list;
+	misc_flags: x86_arch_misc_flags list;
 }
 
 type arch_domainconfig =
@@ -58,16 +62,17 @@ type arch_domainconfig =
 	| X86 of xen_x86_arch_domainconfig
 
 type domain_create_flag =
-  | CDF_HVM
-  | CDF_HAP
-  | CDF_S3_INTEGRITY
-  | CDF_OOS_OFF
-  | CDF_XS_DOMAIN
-  | CDF_IOMMU
+	| CDF_HVM
+	| CDF_HAP
+	| CDF_S3_INTEGRITY
+	| CDF_OOS_OFF
+	| CDF_XS_DOMAIN
+	| CDF_IOMMU
+	| CDF_NESTED_VIRT
+	| CDF_VPMU
 
 type domain_create_iommu_opts =
-  | IOMMU_NO_SHAREPT
-
+	| IOMMU_NO_SHAREPT
 
 type domctl_create_config =
 {
@@ -79,6 +84,8 @@ type domctl_create_config =
 	max_evtchn_port: int;
 	max_grant_frames: int;
 	max_maptrack_frames: int;
+	max_grant_version: int;
+	cpupool_id: int32;
 	arch: arch_domainconfig;
 }
 
@@ -127,6 +134,19 @@ type physinfo_cap_flag =
 	| CAP_DirectIO
 	| CAP_HAP
 	| CAP_Shadow
+	| CAP_IOMMU_HAP_PT_SHARE
+	| CAP_Vmtrace
+	| CAP_Vpmu
+	| CAP_Gnttab_v1
+	| CAP_Gnttab_v2
+
+type arm_physinfo_cap_flag
+
+type x86_physinfo_cap_flag
+
+type arch_physinfo_cap_flags =
+	| ARM of arm_physinfo_cap_flag list
+	| X86 of x86_physinfo_cap_flag list
 
 type physinfo =
 {
@@ -141,6 +161,7 @@ type physinfo =
 	(* XXX hw_cap *)
 	capabilities     : physinfo_cap_flag list;
 	max_nr_cpus      : int;
+	arch_capabilities : arch_physinfo_cap_flags;
 }
 
 type version =
