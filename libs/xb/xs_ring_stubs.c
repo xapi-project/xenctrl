@@ -44,7 +44,7 @@ CAMLprim value ml_interface_read(value ml_interface,
 	CAMLlocal1(ml_result);
 
 	struct mmap_interface *interface = GET_C_STRUCT(ml_interface);
-	char *buffer = String_val(ml_buffer);
+	char *buffer = (char*) String_val(ml_buffer);
 	int len = Int_val(ml_len);
 	int result;
 
@@ -103,7 +103,7 @@ CAMLprim value ml_interface_write(value ml_interface,
 	CAMLlocal1(ml_result);
 
 	struct mmap_interface *interface = GET_C_STRUCT(ml_interface);
-	char *buffer = String_val(ml_buffer);
+	char *buffer = (char*) String_val(ml_buffer);
 	int len = Int_val(ml_len);
 	int result;
 

@@ -52,9 +52,11 @@ static char * dup_String_val(value s)
 
 #include "_xtl_levels.h"
 
-/* Option type support as per http://www.linux-nantes.org/~fmonnier/ocaml/ocaml-wrapping-c.php */
-#define Val_none Val_int(0)
-#define Some_val(v) Field(v,0)
+/* Introduced in OCaml 4.12. */
+#ifndef Some_val
+	#define Val_none Val_int(0)
+	#define Some_val(v) Field(v, 0)
+#endif
 
 static value Val_some(value v)
 {
@@ -90,7 +92,7 @@ static void stub_xtl_ocaml_vmessage(struct xentoollog_logger *logger,
 	CAMLparam0();
 	CAMLlocalN(args, 4);
 	struct caml_xtl *xtl = (struct caml_xtl*)logger;
-	value *func = caml_named_value(xtl->vmessage_cb) ;
+	const value *func = caml_named_value(xtl->vmessage_cb) ;
 	char *msg;
 
 	if (func == NULL)
@@ -120,7 +122,7 @@ static void stub_xtl_ocaml_progress(struct xentoollog_logger *logger,
 	CAMLparam0();
 	CAMLlocalN(args, 5);
 	struct caml_xtl *xtl = (struct caml_xtl*)logger;
-	value *func = caml_named_value(xtl->progress_cb) ;
+	const value *func = caml_named_value(xtl->progress_cb) ;
 
 	if (func == NULL)
 		caml_raise_sys_error(caml_copy_string("Unable to find callback"));
