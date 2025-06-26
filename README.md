@@ -8,7 +8,7 @@ provides mock [OCaml] bindings to [Xen] to be used with the
 [Citrix Hypervisor] Toolstack for Travis builds. Most of that code is
 available from [XS Opam].
 
-The code is taken from [Xen] but mocks some some parts that don't bind
+The code is taken from [Xen] but mocks some parts that don't bind
 properly to standard [Xen] libraries. As such, this is only useful for
 compiling code but not for running it.
 
