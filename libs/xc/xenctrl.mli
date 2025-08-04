@@ -81,18 +81,6 @@ type domctl_create_config = {
   arch: arch_domainconfig;
 }
 
-type runstateinfo = {
-  state : int32;
-  missed_changes: int32;
-  state_entry_time : int64;
-  time0 : int64;
-  time1 : int64;
-  time2 : int64;
-  time3 : int64;
-  time4 : int64;
-  time5 : int64;
-}
-
 type domaininfo = {
   domid : domid;
   dying : bool;
@@ -177,6 +165,44 @@ val close_handle: unit -> unit
 
 val domain_create : handle -> domctl_create_config -> domid
 
+module Runstateinfo : sig
+  module V1 : sig
+    (* Retain old names for backwards compatibility *)
+    type runstateinfo = {
+      state: int32;
+      missed_changes: int32;
+      state_entry_time: int64;
+      time0: int64;
+      time1: int64;
+      time2: int64;
+      time3: int64;
+      time4: int64;
+      time5: int64;
+    }
+    val domain_get_runstate_info : handle -> int -> runstateinfo
+  end
+
+  module V2 : sig
+    type t = {
+      state: int32;
+      missed_changes: int32;
+      state_entry_time: int64;
+      time0: int64;
+      time1: int64;
+      time2: int64;
+      time3: int64;
+      time4: int64;
+      time5: int64;
+      runnable: int64;
+      running: int64;
+      nonaffine: int64;
+    }
+    val domain_get : handle -> int -> t
+  end
+end
+
+include module type of Runstateinfo.V1
+
 val domain_sethandle : handle -> domid -> string -> unit
 val domain_max_vcpus : handle -> domid -> int -> unit
 
@@ -193,8 +219,6 @@ val domain_getinfolist : handle -> domid -> domaininfo list
 val domain_getinfo : handle -> domid -> domaininfo
 
 val domain_get_vcpuinfo : handle -> int -> int -> vcpuinfo
-
-val domain_get_runstate_info : handle -> int -> runstateinfo
 
 val domain_ioport_permission: handle -> domid -> int -> int -> bool -> unit
 
