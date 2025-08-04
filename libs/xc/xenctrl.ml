@@ -99,7 +99,6 @@ type runstateinfo = {
   time3 : int64;
   time4 : int64;
   time5 : int64;
-  runnable : int64;
 }
 
 type domaininfo =
