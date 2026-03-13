@@ -51,3 +51,10 @@ CAMLprim value mock5 (value v1, value v2, value v3, value v4, value v5)
   caml_failwith(msg);
   CAMLreturn (result);
 }
+
+CAMLprim value stub_xc_domain_numa_get_node_pages(value v1, value v2)
+{
+    CAMLparam2(v1, v2);
+    caml_failwith(__func__);
+    CAMLnoreturn;
+}
