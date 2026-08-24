@@ -70,6 +70,7 @@ type domain_create_flag =
 	| CDF_IOMMU
 	| CDF_NESTED_VIRT
 	| CDF_VPMU
+	| CDF_TRAP_UNMAPPED_ACCESSES
 
 type domain_create_iommu_opts =
 	| IOMMU_NO_SHAREPT
@@ -86,6 +87,7 @@ type domctl_create_config =
 	max_maptrack_frames: int;
 	max_grant_version: int;
 	altp2m_opts: int32;
+	altp2m_count: int32;
 	vmtrace_buf_kb: int32;
 	cpupool_id: int32;
 	arch: arch_domainconfig;
